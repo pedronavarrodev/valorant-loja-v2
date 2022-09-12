@@ -39,41 +39,8 @@ main()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Tempo que expira as promoções
-let deadline = new Date(`Sep 12, 2022 14:10:20`).getTime();
+let deadline = new Date(`Sep 12, 2022 14:25:20`).getTime();
 
 let interval = setInterval(() => countDown(), 1000);
 
@@ -144,7 +111,15 @@ const resetCountdown = () => {
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function mudarArmas() {
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() == 0);
+    deadline = currentDate.getTime();
+    interval = setInterval(() => countDown(), 1000);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // TEXTOS ARMAS
 let textoPrimeiraArma = document.querySelector('#texto-arma1')
