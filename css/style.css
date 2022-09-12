@@ -110,6 +110,12 @@ body {
     
 }
 
+.title.is-6 {
+    color: #fff;
+    text-align: end;
+    background-color: red;
+}
+
 
 /* Botão para comprar pacote */
 

@@ -1,13 +1,90 @@
-// Tempo que expira as promoções
-let deadline = new Date(`Sep 11, 2022 15:53:00`).getTime();
+//////// API
 
-let intervalo = setInterval(function() {
-let now = new Date().getTime()
-let tempo = deadline - now
-let dias = Math.floor(tempo / (1000 * 60 * 60 * 24))
-let horas = Math.floor((tempo%(1000 * 60 * 60 * 24))/(1000 * 60 * 60))
-let minutos = Math.floor((tempo % (1000 * 60 * 60)) / (1000 * 60))
-let segundos = Math.floor((tempo % (1000 * 60)) / 1000)
+function fazGet(url) {
+    let request = new XMLHttpRequest()
+    request.open('GET', url, false)
+    request.send()
+    return request.responseText
+}
+
+
+function criaLinha(displayName) {
+    
+}
+
+// function main() {
+//     data = fazGet(`https://valorant-api.com/v1/weapons/skins/`)
+//     displayName = JSON.parse(data)
+//     console.log(displayName[0])
+// }
+
+function main() {
+    data = fazGet(`https://valorant-api.com/v1/weapons/skins?language=pt-BR`)
+    displayName = JSON.parse(data)
+    displayIcon = JSON.parse(data)
+    console.log(displayName.data[541].displayName)
+}
+
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Tempo que expira as promoções
+let deadline = new Date(`Sep 12, 2022 14:10:20`).getTime();
+
+let interval = setInterval(() => countDown(), 1000);
+
+const countDown = () => {
+
+    let now = new Date().getTime();
+    let tempo = deadline - now;
+    let dias = Math.floor(tempo / (1000 * 60 * 60 * 24));
+    let horas = Math.floor((tempo % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutos = Math.floor((tempo % (1000 * 60 * 60)) / (1000 * 60));
+    let segundos = Math.floor((tempo % (1000 * 60)) / 1000);
 
     if (dias < 10) {
         dias = "0" + dias;
@@ -19,46 +96,55 @@ let segundos = Math.floor((tempo % (1000 * 60)) / 1000)
     if (minutos < 10) {
         minutos = "0" + minutos;
     }
-    
+
     if (segundos < 10) {
         segundos = "0" + segundos;
     }
     document.querySelector(".promo").innerHTML = `${dias}:${horas}:${minutos}:${segundos}`;
-    
-    
+
+
     if (tempo < 0) {
 
-        let codigoArmas1 = Math.floor(Math.random() * 5)
-        let codigoArmas2 = Math.floor(Math.random() * 5)
-        let codigoArmas3 = Math.floor(Math.random() * 5)
-        let codigoArmas4 = Math.floor(Math.random() * 5)
+        let codigoArmas1 = Math.floor(Math.random() * 541)
+        let codigoArmas2 = Math.floor(Math.random() * 541)
+        let codigoArmas3 = Math.floor(Math.random() * 541)
+        let codigoArmas4 = Math.floor(Math.random() * 541)
 
-        clearInterval(intervalo);
+        resetCountdown();
         // document.querySelector(".promo").innerHTML = "A promoção expirou! &nbsp ";
         // document.querySelector(".promo").innerHTML = `Mudou as armas`;
         document.querySelector(".promo").innerHTML = `${dias}`;
         document.querySelector(".ofertas").innerHTML = "";
 
 
-        textoPrimeiraArma.innerHTML = `${armas[codigoArmas1].nome}`
-        PrimeiraArma.setAttribute('src', `${armas[codigoArmas1].imagem}`);
+        textoPrimeiraArma.innerHTML = `${displayName.data[codigoArmas1].displayName}`
+        PrimeiraArma.setAttribute('src', `${displayIcon.data[codigoArmas1].displayIcon}`);
 
-        textoSegundaArma.innerHTML = `${armas[codigoArmas2].nome}`
-        SegundaArma.setAttribute('src', `${armas[codigoArmas2].imagem}`);
+        textoSegundaArma.innerHTML = `${displayName.data[codigoArmas2].displayName}`
+        SegundaArma.setAttribute('src', `${displayIcon.data[codigoArmas2].displayIcon}`);
 
-        textoTerceiraArma.innerHTML = `${armas[codigoArmas3].nome}`
-        TerceiraArma.setAttribute('src', `${armas[codigoArmas3].imagem}`);
+        textoTerceiraArma.innerHTML = `${displayName.data[codigoArmas3].displayName}`
+        TerceiraArma.setAttribute('src', `${displayIcon.data[codigoArmas3].displayIcon}`);
 
-        textoQuartaArma.innerHTML = `${armas[codigoArmas4].nome}`
-        QuartaArma.setAttribute('src', `${armas[codigoArmas4].imagem}`);
+        textoQuartaArma.innerHTML = `${displayName.data[codigoArmas4].displayName}`
+        QuartaArma.setAttribute('src', `${displayIcon.data[codigoArmas4].displayIcon}`);
     }
 
-}, 1000);
+}
+
+const resetCountdown = () => {
+
+    clearInterval(interval);
+
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() + 1);
+    deadline = currentDate.getTime();
+    interval = setInterval(() => countDown(), 1000);
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// function adicionarDia {
-
-// }
 
 // TEXTOS ARMAS
 let textoPrimeiraArma = document.querySelector('#texto-arma1')
@@ -72,49 +158,3 @@ let PrimeiraArma = document.querySelector('#arma1')
 let SegundaArma = document.querySelector('#arma2')
 let TerceiraArma = document.querySelector('#arma3')
 let QuartaArma = document.querySelector('#arma4')
-
-
-const armas = [
-    {
-        nome: "Classic",
-        imagem: "./img/armas/classic.png",
-        valor: "1280",
-        tipo: "raro"
-    },
-    {
-        nome: "Shorty",
-        imagem: "./img/armas/shorty.png",
-        valor: "780",
-        tipo: "comum"
-    },
-    {
-        nome: "Ghost",
-        imagem: "./img/armas/ghost.png",
-        valor: "780",
-        tipo: "comum"
-    },
-    {
-        nome: "Frenzy",
-        imagem: "./img/armas/frenzy.png",
-        valor: "780",
-        tipo: "comum"
-    },
-    {
-        nome: "Sheriff",
-        imagem: "./img/armas/sheriff.png",
-        valor: "780",
-        tipo: "comum"
-    },
-]
-
-
-
-// addEventListener('click', function() {
-//     textoPrimeiraArma.innerHTML = `${armas[1].nome}`
-//     PrimeiraArma.setAttribute('src', `${armas[1].imagem}`);
-
-// })
-
-
-
-// console.log(armas[0].imagem)
